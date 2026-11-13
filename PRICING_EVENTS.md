@@ -10,8 +10,10 @@ Regular pricing sums `Order.Item.price()`. Discount pricing accepts an integer
 percentage from 0 to 100, applies it to the subtotal, and rounds the final total
 down to whole KZT. The demo uses 10%: 2000 KZT becomes 1800 KZT.
 Rounding happens once for the entire order, not separately for each item.
-Arithmetic uses `long` intermediates; a subtotal outside the existing `int`
+Arithmetic uses `long` intermediates; a final total outside the existing `int`
 price contract raises `ArithmeticException` instead of silently overflowing.
+Discount pricing can handle a subtotal above the `int` limit when the discounted
+total fits. Multiplication is checked for overflow as well.
 
 Both strategies use the `Order.Item` interface, so menu factory products and
 topping decorators can participate without changes to these pricing classes.
@@ -72,4 +74,5 @@ library or `-ea` flag is required. Generated `out/` files remain ignored.
 
 Checks cover subtotal calculation, custom Item implementations, discount bounds,
 rounding, overflow, unchanged item prices, zero subscribers, both subscriber
-deliveries, receipt/event consistency, and the actual kitchen/cashier output.
+deliveries, registration order, subscriptions during notification,
+receipt/event consistency, and the actual kitchen/cashier output.

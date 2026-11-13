@@ -11,6 +11,7 @@ public final class PricingEventsChecks {
     public static void main(String[] args) {
         checkPricing();
         checkPublisherAndFacade();
+        checkSubscriptionDuringNotification();
         checkConcreteListeners();
         System.out.println("All pricing and event checks passed.");
     }
@@ -31,6 +32,12 @@ public final class PricingEventsChecks {
         check(new DiscountPricing(10).total(order(Integer.MAX_VALUE)) == 1932735282,
             "Discount multiplication must not overflow int");
         expectThrows(ArithmeticException.class, () -> regular.total(order(Integer.MAX_VALUE, 1)));
+        Order largeOrder = order(Integer.MAX_VALUE, 1);
+        check(new DiscountPricing(50).total(largeOrder) == 1073741824,
+            "Allow a large subtotal when the discounted total fits int");
+        check(new DiscountPricing(100).total(largeOrder) == 0,
+            "Full discount on a large subtotal");
+        expectThrows(ArithmeticException.class, () -> new DiscountPricing(0).total(largeOrder));
 
         // A different member can supply any Item implementation, including a decorator.
         Order.Item customItem = new Order.Item() {
@@ -67,6 +74,32 @@ public final class PricingEventsChecks {
             check(received.get(0).total() == regular.total(), "Forward regular receipt total");
             check(received.get(1).total() == discounted.total(), "Forward discounted receipt total");
         }
+    }
+
+    private static void checkSubscriptionDuringNotification() {
+        OrderEventPublisher events = new OrderEventPublisher();
+        List<String> deliveries = new ArrayList<>();
+        events.subscribe(new CafeFacade.OrderEvents() {
+            private boolean subscribed;
+
+            @Override
+            public void placed(Order order, int total) {
+                deliveries.add("first");
+                if (!subscribed) {
+                    events.subscribe((nextOrder, nextTotal) -> deliveries.add("late"));
+                    subscribed = true;
+                }
+            }
+        });
+        events.subscribe((order, total) -> deliveries.add("second"));
+        Order order = order(500);
+        events.placed(order, 500);
+        check(deliveries.equals(List.of("first", "second")),
+            "A new subscriber waits until the next placement");
+        deliveries.clear();
+        events.placed(order, 500);
+        check(deliveries.equals(List.of("first", "second", "late")),
+            "Subscribers are notified in registration order");
     }
 
     private static void checkConcreteListeners() {

@@ -3,7 +3,6 @@ package cafe;
 /** Applies an integer percentage discount and rounds the final total down. */
 public final class DiscountPricing implements CafeFacade.Pricing {
     private final int discountPercent;
-    private final RegularPricing regularPricing = new RegularPricing();
 
     public DiscountPricing(int discountPercent) {
         if (discountPercent < 0 || discountPercent > 100) {
@@ -14,7 +13,8 @@ public final class DiscountPricing implements CafeFacade.Pricing {
 
     @Override
     public int total(Order order) {
-        long subtotal = regularPricing.total(order);
-        return Math.toIntExact(Math.floorDiv(subtotal * (100 - discountPercent), 100));
+        long subtotal = order.items().stream().mapToLong(Order.Item::price).sum();
+        long discounted = Math.floorDiv(Math.multiplyExact(subtotal, 100 - discountPercent), 100);
+        return Math.toIntExact(discounted);
     }
 }
