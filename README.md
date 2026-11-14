@@ -1,15 +1,70 @@
-# Cafe Ordering System
+# Cafe Ordering System (Design Patterns Final Project)
 
-Team project starter. Builder and Facade are implemented. The demo uses regular prices and prints a single order confirmation. The other four patterns are team tasks.
+A cohesive Java 17 restaurant ordering system demonstrating **6 software design patterns** implemented collaboratively across team branches.
 
-Run from this directory with Java 17:
+## Implemented Design Patterns (6 Total)
 
+| Pattern | Category | Responsible | Key Classes | Role & Responsibility |
+| :--- | :--- | :--- | :--- | :--- |
+| **Builder** | Creational | Jasulan Koishybay | `Order.Builder` | Validates customer and items, constructs immutable `Order` instances step-by-step. |
+| **Facade** | Structural | Jasulan Koishybay | `CafeFacade` | Simplifies the subsystem API: coordinates building orders, pricing, receipts, and notifying event subscribers. |
+| **Factory Method** | Creational | Adilet Ainadinov | `MenuItemFactory`, `BurgerFactory`, `TeaFactory` | Encapsulates item creation, decoupling client code from concrete product classes. |
+| **Decorator** | Structural | Adilet Ainadinov | `ItemDecorator`, `CheeseExtra`, `BaconExtra` | Dynamically wraps `Order.Item` instances to append toppings and adjust prices at runtime. |
+| **Strategy** | Behavioral | Dias (HumbleCherry10) | `CafeFacade.Pricing`, `RegularPricing`, `DiscountPricing` | Encapsulates interchangeable pricing and discount calculation algorithms. |
+| **Observer** | Behavioral | Dias (HumbleCherry10) | `CafeFacade.OrderEvents`, `OrderEventPublisher`, `KitchenListener`, `CashierListener` | Dispatches order placement notifications to subscribed departments (Kitchen, Cashier). |
+
+---
+
+## Architecture Flow
+
+```text
+1. Factory Method : MenuItemFactory -> creates base Burger / Tea
+2. Decorator      : CheeseExtra / BaconExtra -> wraps Item, adds toppings & price
+3. Builder        : Order.Builder -> compiles items and customer into immutable Order
+4. Facade         : CafeFacade -> orchestrates pricing calculation and receipt creation
+5. Strategy       : RegularPricing / DiscountPricing -> calculates final price
+6. Observer       : OrderEventPublisher -> notifies KitchenListener and CashierListener
+```
+
+---
+
+## Team Branches & Contributions
+
+- `main`: Fully integrated project combining all 6 patterns in `Main.java` and `IntegrationChecks.java`.
+- `menu-patterns` (Adilet Ainadinov): Factory Method (`MenuItemFactory`, `BurgerFactory`, `TeaFactory`) and Decorator (`ItemDecorator`, `CheeseExtra`, `BaconExtra`), with standalone demo (`MenuPatternsDemo.java`) and checks (`MenuPatternsChecks.java`).
+- `pricing-events` (Dias): Strategy (`RegularPricing`, `DiscountPricing`) and Observer (`OrderEventPublisher`, `KitchenListener`, `CashierListener`), with standalone demo (`PricingEventsDemo.java`) and checks (`PricingEventsChecks.java`).
+
+---
+
+## How to Build and Run (Java 17+)
+
+### 1. Compile all classes
 ```sh
 javac --release 17 -d out src/cafe/*.java
+```
+
+### 2. Run the Integrated Demo
+```sh
 java -cp out cafe.Main
 ```
 
-- Builder: Order.Builder collects items and creates an order with an immutable item list.
-- Facade: CafeFacade.placeOrder builds the order, calculates the price, creates a receipt, and announces that the order was placed.
+### 3. Run Standalone Demos
+```sh
+# Adilet Standalone Demo (Factory Method & Decorator)
+java -cp out cafe.MenuPatternsDemo
 
-Keep all classes in package cafe. Use separate branches for team tasks. During integration, Main wires the menu factory, toppings, price strategy and event publisher into one order demo.
+# Dias Standalone Demo (Strategy & Observer)
+java -cp out cafe.PricingEventsDemo
+```
+
+### 4. Run Behavioral Checks (Automated Tests)
+```sh
+# All 6 patterns integrated check
+java -cp out cafe.IntegrationChecks
+
+# Adilet Checks
+java -cp out cafe.MenuPatternsChecks
+
+# Dias Checks
+java -cp out cafe.PricingEventsChecks
+```
