@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cafe Ordering System - Final Project Report</title>
+<style>
+  @page {
+    size: A4;
+    margin: 20mm 15mm 20mm 15mm;
+  }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: #1f2937;
+    line-height: 1.55;
+    font-size: 11pt;
+    margin: 0 auto;
+    max-width: 900px;
+    padding: 20px;
+  }
+  h1, h2, h3, h4 {
+    color: #111827;
+    font-weight: 700;
+  }
+  h1 {
+    font-size: 24pt;
+    border-bottom: 3px solid #2563eb;
+    padding-bottom: 8px;
+    margin-top: 10px;
+    margin-bottom: 4px;
+    text-align: center;
+  }
+  .subtitle {
+    text-align: center;
+    color: #4b5563;
+    font-size: 13pt;
+    margin-bottom: 30px;
+  }
+  h2 {
+    font-size: 16pt;
+    border-bottom: 1.5px solid #e5e7eb;
+    padding-bottom: 6px;
+    margin-top: 26px;
+    margin-bottom: 12px;
+    color: #1e40af;
+    page-break-after: avoid;
+  }
+  h3 {
+    font-size: 12.5pt;
+    margin-top: 18px;
+    margin-bottom: 8px;
+    color: #1f2937;
+    page-break-after: avoid;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 10pt;
+    page-break-inside: avoid;
+  }
+  th, td {
+    border: 1px solid #d1d5db;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  th {
+    background-color: #f3f4f6;
+    font-weight: 600;
+    color: #111827;
+  }
+  tr:nth-child(even) td {
+    background-color: #f9fafb;
+  }
+  pre, code {
+    font-family: "JetBrains Mono", Consolas, Monaco, "Courier New", monospace;
+  }
+  pre {
+    background-color: #1e293b;
+    color: #f8fafc;
+    padding: 12px;
+    border-radius: 6px;
+    overflow-x: auto;
+    font-size: 9.5pt;
+    line-height: 1.45;
+    page-break-inside: avoid;
+  }
+  code {
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 9.5pt;
+  }
+  pre code {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+  }
+  .diagram-box {
+    background: #f8fafc;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 8px;
+    padding: 16px;
+    margin: 16px 0;
+    font-family: monospace;
+    font-size: 9pt;
+    white-space: pre;
+    line-height: 1.35;
+    page-break-inside: avoid;
+  }
+  .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 9999px;
+    font-size: 8.5pt;
+    font-weight: 600;
+  }
+  .badge-creational { background: #dbeafe; color: #1e40af; }
+  .badge-structural { background: #fef3c7; color: #92400e; }
+  .badge-behavioral { background: #dcfce7; color: #166534; }
+  .footer-note {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 9pt;
+    color: #6b7280;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 10px;
+  }
+  @media print {
+    body { padding: 0; }
+    .no-print { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<h1>Cafe Ordering System</h1>
+<div class="subtitle">
+  <strong>Final Project Report & Defense Documentation</strong><br>
+  Software Design Patterns & Object-Oriented Software Engineering | Java 17<br>
+  Repository: <a href="https://github.com/Jasulankoishy/Cafe-Final-Project">Jasulankoishy/Cafe-Final-Project</a>
+</div>
+
+<h2>1. Introductory Part</h2>
+
+<h3>1.1 Project Overview & Motivation</h3>
+<p>
+Modern food service systems require modular, extensible software to manage diverse menu categories, custom ingredient additions, fluctuating discount campaigns, and real-time synchronization between order intake, kitchen preparation, and cashier accounting.
+</p>
+<p>
+The <strong>Cafe Ordering System</strong> is engineered as a clean-room demonstration of <strong>six classic Gang of Four (GoF) design patterns</strong> operating in complete harmony on Java 17. The system strictly avoids monolithic coupling by distributing creational, structural, and behavioral responsibilities into decoupled components.
+</p>
+
+<h3>1.2 Team Allocation & Pattern Ownership</h3>
+<p>In accordance with course defense requirements, each student is responsible for two design patterns:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Student</th>
+      <th>Pattern 1</th>
+      <th>Pattern 2</th>
+      <th>Category</th>
+      <th>Key Responsibility</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Jasulan Koishybay</strong></td>
+      <td><span class="badge badge-creational">Builder</span></td>
+      <td><span class="badge badge-structural">Facade</span></td>
+      <td>Creational / Structural</td>
+      <td>Order assembly with validation and immutable records; simplified facade coordinating ordering, pricing, and notification dispatch.</td>
+    </tr>
+    <tr>
+      <td><strong>Dias (HumbleCherry10)</strong></td>
+      <td><span class="badge badge-behavioral">Strategy</span></td>
+      <td><span class="badge badge-behavioral">Observer</span></td>
+      <td>Behavioral / Behavioral</td>
+      <td>Dynamic interchangeable pricing algorithms (regular & discount); event publisher for kitchen and cashier subscribers.</td>
+    </tr>
+    <tr>
+      <td><strong>Adilet Ainadinov</strong></td>
+      <td><span class="badge badge-creational">Factory Method</span></td>
+      <td><span class="badge badge-structural">Decorator</span></td>
+      <td>Creational / Structural</td>
+      <td>Abstract item factory producing menu items; dynamic decorators wrapping items with toppings and price updates.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>2. System Architecture & High-Level Design</h2>
+
+<h3>2.1 Coordinated Workflow Diagram</h3>
+<div class="diagram-box">
++-------------------------------------------------------------------------------------------------+
+|                                 INTEGRATED ORDER WORKFLOW                                       |
++-------------------------------------------------------------------------------------------------+
+|                                                                                                 |
+|   [1. Factory Method]                [2. Decorator]                        [3. Builder]         |
+|   BurgerFactory / TeaFactory  --->   CheeseExtra / BaconExtra     --->    Order.Builder         |
+|   (Instantiates base Item)           (Wraps & adds toppings/price)        (Validates & builds)  |
+|                                                                                 |               |
+|                                                                                 v               |
+|                                                                         Immutable Order         |
+|                                                                                 |               |
+|                                                                                 v               |
+|   +-----------------------------------------------------------------------------------------+   |
+|   | [4. Facade: CafeFacade.placeOrder]                                                      |   |
+|   |  - Coordinates building the order                                                       |   |
+|   |  - Applies selected pricing strategy                                                    |   |
+|   |  - Broadcasts placement event to subscribers                                            |   |
+|   |  - Generates immutable Receipt                                                          |   |
+|   +----------------------------+--------------------------------------------+---------------+   |
+|                                |                                            |                   |
+|                                v                                            v                   |
+|                      [5. Strategy: Pricing]                       [6. Observer: Events]         |
+|                     RegularPricing / DiscountPricing              OrderEventPublisher           |
+|                     (Calculates total with discount)              |-- KitchenListener (prep)    |
+|                                                                   +-- CashierListener (billing) |
++-------------------------------------------------------------------------------------------------+
+</div>
+
+<h2>3. Detailed Implementation of Design Patterns</h2>
+
+<h3>3.1 Creational Patterns</h3>
+
+<h4>Pattern 1: Builder (Implemented by Jasulan Koishybay)</h4>
+<p>
+<strong>Class:</strong> <code>cafe.Order.Builder</code><br>
+<strong>Intent:</strong> Encapsulates the step-by-step assembly of an immutable <code>Order</code> record, enforcing non-null constraints, non-blank customer names, and requiring at least one item.
+</p>
+<pre><code>public static class Builder {
+    private final String customer;
+    private final List&lt;Item&gt; items = new ArrayList&lt;&gt;();
+
+    public Builder(String customer) {
+        if (customer == null || customer.isBlank()) {
+            throw new IllegalArgumentException("Customer name is required.");
+        }
+        this.customer = customer;
+    }
+    public Builder add(Item item) {
+        items.add(Objects.requireNonNull(item));
+        return this;
+    }
+    public Order build() {
+        if (items.isEmpty()) throw new IllegalStateException("Add at least one item.");
+        return new Order(customer, items);
+    }
+}</code></pre>
+
+<h4>Pattern 2: Factory Method (Implemented by Adilet Ainadinov)</h4>
+<p>
+<strong>Classes:</strong> <code>cafe.MenuItemFactory</code>, <code>cafe.BurgerFactory</code>, <code>cafe.TeaFactory</code><br>
+<strong>Intent:</strong> Defines an abstract creator method <code>createItem()</code> returning the <code>Order.Item</code> abstraction, allowing subclasses to decide the exact product and pricing details.
+</p>
+<pre><code>public abstract class MenuItemFactory {
+    public abstract Order.Item createItem();
+}
+
+public class BurgerFactory extends MenuItemFactory {
+    @Override
+    public Order.Item createItem() {
+        return new Order.MenuItem("Burger", 1500);
+    }
+}
+
+public class TeaFactory extends MenuItemFactory {
+    @Override
+    public Order.Item createItem() {
+        return new Order.MenuItem("Tea", 500);
+    }
+}</code></pre>
+
+<h3>3.2 Structural Patterns</h3>
+
+<h4>Pattern 3: Facade (Implemented by Jasulan Koishybay)</h4>
+<p>
+<strong>Class:</strong> <code>cafe.CafeFacade</code><br>
+<strong>Intent:</strong> Provides a single unified entry point <code>placeOrder(...)</code> concealing builder validation, strategy price computation, event publishing, and receipt generation.
+</p>
+<pre><code>public Receipt placeOrder(String customer, List&lt;Order.Item&gt; items) {
+    Order.Builder builder = new Order.Builder(customer);
+    items.forEach(builder::add);
+    Order order = builder.build();
+    int total = pricing.total(order);
+    Receipt receipt = new Receipt(order, total);
+    events.placed(order, total);
+    return receipt;
+}</code></pre>
+
+<h4>Pattern 4: Decorator (Implemented by Adilet Ainadinov)</h4>
+<p>
+<strong>Classes:</strong> <code>cafe.ItemDecorator</code>, <code>cafe.CheeseExtra</code>, <code>cafe.BaconExtra</code><br>
+<strong>Intent:</strong> Dynamically augments any <code>Order.Item</code> with additional ingredients at runtime without modifying original classes or subclass proliferation.
+</p>
+<pre><code>public abstract class ItemDecorator implements Order.Item {
+    protected final Order.Item wrapped;
+    public ItemDecorator(Order.Item wrapped) {
+        this.wrapped = Objects.requireNonNull(wrapped);
+    }
+    @Override public String name() { return wrapped.name(); }
+    @Override public int price() { return wrapped.price(); }
+}
+
+public final class CheeseExtra extends ItemDecorator {
+    public CheeseExtra(Order.Item wrapped) { super(wrapped); }
+    @Override public String name() { return wrapped.name() + " + Cheese"; }
+    @Override public int price() { return wrapped.price() + 200; }
+}</code></pre>
+
+<h3>3.3 Behavioral Patterns</h3>
+
+<h4>Pattern 5: Strategy (Implemented by Dias)</h4>
+<p>
+<strong>Classes:</strong> <code>cafe.CafeFacade.Pricing</code>, <code>cafe.RegularPricing</code>, <code>cafe.DiscountPricing</code><br>
+<strong>Intent:</strong> Defines interchangeable calculation algorithms for order pricing. Guarded with <code>long</code> arithmetic and <code>Math.floorDiv</code> / <code>Math.multiplyExact</code> against integer overflow.
+</p>
+<pre><code>public final class DiscountPricing implements CafeFacade.Pricing {
+    private final int discountPercent;
+    public DiscountPricing(int discountPercent) {
+        if (discountPercent &lt; 0 || discountPercent &gt; 100)
+            throw new IllegalArgumentException("Invalid discount percentage.");
+        this.discountPercent = discountPercent;
+    }
+    @Override
+    public int total(Order order) {
+        long subtotal = order.items().stream().mapToLong(Order.Item::price).sum();
+        long discounted = Math.floorDiv(Math.multiplyExact(subtotal, 100 - discountPercent), 100);
+        return Math.toIntExact(discounted);
+    }
+}</code></pre>
+
+<h4>Pattern 6: Observer (Implemented by Dias)</h4>
+<p>
+<strong>Classes:</strong> <code>cafe.CafeFacade.OrderEvents</code>, <code>cafe.OrderEventPublisher</code>, <code>cafe.KitchenListener</code>, <code>cafe.CashierListener</code><br>
+<strong>Intent:</strong> Decouples event dispatching from department consumers (Kitchen prep and Cashier invoicing) using a publish-subscribe notification model.
+</p>
+<pre><code>public final class OrderEventPublisher implements CafeFacade.OrderEvents {
+    private final List&lt;CafeFacade.OrderEvents&gt; listeners = new ArrayList&lt;&gt;();
+    public void subscribe(CafeFacade.OrderEvents listener) {
+        listeners.add(Objects.requireNonNull(listener));
+    }
+    @Override
+    public void placed(Order order, int total) {
+        for (CafeFacade.OrderEvents listener : List.copyOf(listeners)) {
+            listener.placed(order, total);
+        }
+    }
+}</code></pre>
+
+<h2>4. SOLID Principles Analysis</h2>
+<table>
+  <thead>
+    <tr>
+      <th>Principle</th>
+      <th>Application in Project Architecture</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Single Responsibility (SRP)</strong></td>
+      <td>Each class encapsulates one concern: <code>Order.Builder</code> for assembly, <code>DiscountPricing</code> for discounting, <code>KitchenListener</code> for food preparation notifications, <code>CafeFacade</code> for flow orchestration.</td>
+    </tr>
+    <tr>
+      <td><strong>Open/Closed (OCP)</strong></td>
+      <td>Adding new toppings (e.g. <code>PicklesExtra</code>) or menu items (e.g. <code>PizzaFactory</code>) requires no modifications to existing classes.</td>
+    </tr>
+    <tr>
+      <td><strong>Liskov Substitution (LSP)</strong></td>
+      <td>All decorators transparently substitute <code>Order.Item</code>. Both pricing implementations substitute <code>Pricing</code> identically.</td>
+    </tr>
+    <tr>
+      <td><strong>Interface Segregation (ISP)</strong></td>
+      <td>Small, highly cohesive interfaces (<code>Item</code>, <code>Pricing</code>, <code>OrderEvents</code>) prevent clients from depending on methods they do not need.</td>
+    </tr>
+    <tr>
+      <td><strong>Dependency Inversion (DIP)</strong></td>
+      <td>High-level <code>CafeFacade</code> relies exclusively on interface abstractions (<code>Pricing</code>, <code>OrderEvents</code>), never on concrete implementations.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>5. Application Verification & Execution Logs</h2>
+
+<h3>5.1 Compilation & Integrated Execution</h3>
+<pre><code>$ javac --release 17 -d out src/cafe/*.java
+$ java -cp out cafe.Main
+
+==================================================
+     CAFE ORDERING SYSTEM - DESIGN PATTERNS DEMO  
+==================================================
+
+[1. Factory Method]
+Created base item: Burger (1500 KZT)
+Created base item: Tea (500 KZT)
+
+[2. Decorator]
+Decorated item: Burger + Cheese + Bacon (2000 KZT)
+
+[3. Observer]
+Subscribed KitchenListener and CashierListener to OrderEventPublisher.
+
+[4. Strategy & Facade]
+Initialized CafeFacade with 10% DiscountPricing and event publisher.
+
+[5. Placing Order via Facade]
+Kitchen: prepare order for Zhasulan: Burger + Cheese + Bacon, Tea
+Cashier: order for Zhasulan, total: 2250 KZT
+
+[6. Customer Receipt]
+Customer: Zhasulan
+ - Burger + Cheese + Bacon         2000 KZT
+ - Tea                              500 KZT
+--------------------------------------------------
+Final Total (after discount):           2250 KZT
+==================================================</code></pre>
+
+<h3>5.2 Test Verification Suites</h3>
+<pre><code>$ java -cp out cafe.IntegrationChecks
+All integrated system checks passed.
+
+$ java -cp out cafe.MenuPatternsChecks
+All menu and decorator checks passed.
+
+$ java -cp out cafe.PricingEventsChecks
+All pricing and event checks passed.</code></pre>
+
+<h2>6. Conclusion & Further Work</h2>
+<p>
+The project successfully realizes a flexible, robust restaurant ordering system that fulfills all final project defense criteria. By coordinating 6 distinct design patterns, the codebase maintains high maintainability, zero unnecessary dependencies, and complete test verification.
+</p>
+<p><strong>Further Extensions:</strong></p>
+<ul>
+  <li><strong>Adapter Pattern:</strong> Integrate third-party payment gateways (Kaspi QR, Stripe) via an adapter.</li>
+  <li><strong>Repository Pattern:</strong> Add persistent storage for receipts and audit trails.</li>
+  <li><strong>Graphical Interface:</strong> Develop a JavaFX or Web dashboard showing real-time kitchen queues.</li>
+</ul>
+
+<div class="footer-note">
+  Prepared for Final Defense &middot; Java 17 &middot; All 6 Design Patterns Fully Operational
+</div>
+
+</body>
+</html>
