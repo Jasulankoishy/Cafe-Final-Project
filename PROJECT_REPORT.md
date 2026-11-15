@@ -400,7 +400,7 @@ public final class OrderEventPublisher implements CafeFacade.OrderEvents {
 
 ### 5.1 Compilation Command
 ```sh
-javac --release 17 -d out src/cafe/*.java
+javac --release 17 -d out -sourcepath src src/cafe/*.java
 ```
 
 ### 5.2 Main Application Output (`cafe.Main`)

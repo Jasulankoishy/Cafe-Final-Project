@@ -46,7 +46,7 @@ CafeFacade.Receipt receipt = cafe.placeOrder("Zhasulan", List.of(burger, tea));
 ## Running with Java 17
 
 ```sh
-javac --release 17 -d out src/cafe/*.java
+javac --release 17 -d out -sourcepath src src/cafe/*.java
 java -cp out cafe.MenuPatternsDemo
 java -cp out cafe.MenuPatternsChecks
 ```

@@ -1,4 +1,7 @@
-package cafe;
+package cafe.strategy;
+
+import cafe.builder.Order;
+import cafe.facade.CafeFacade;
 
 /** Applies an integer percentage discount and rounds the final total down. */
 public final class DiscountPricing implements CafeFacade.Pricing {

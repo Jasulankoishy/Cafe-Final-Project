@@ -1,16 +1,18 @@
-package cafe;
+package cafe.decorator;
+
+import cafe.builder.Order;
 
 /**
- * Concrete Decorator adding bacon topping to an item.
+ * Concrete Decorator adding cheese topping to an item.
  */
-public final class BaconExtra extends ItemDecorator {
+public final class CheeseExtra extends ItemDecorator {
     private final int extraPrice;
 
-    public BaconExtra(Order.Item wrapped) {
-        this(wrapped, 300);
+    public CheeseExtra(Order.Item wrapped) {
+        this(wrapped, 200);
     }
 
-    public BaconExtra(Order.Item wrapped, int extraPrice) {
+    public CheeseExtra(Order.Item wrapped, int extraPrice) {
         super(wrapped);
         if (extraPrice < 0) {
             throw new IllegalArgumentException("Extra price cannot be negative.");
@@ -20,7 +22,7 @@ public final class BaconExtra extends ItemDecorator {
 
     @Override
     public String name() {
-        return wrapped.name() + " + Bacon";
+        return wrapped.name() + " + Cheese";
     }
 
     @Override

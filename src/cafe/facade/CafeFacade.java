@@ -1,4 +1,6 @@
-package cafe;
+package cafe.facade;
+
+import cafe.builder.Order;
 
 import java.util.List;
 

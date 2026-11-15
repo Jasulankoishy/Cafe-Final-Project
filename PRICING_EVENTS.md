@@ -49,7 +49,7 @@ The team can use the example when it integrates its shared Main later.
 ## Run with Java 17
 
 ```sh
-javac --release 17 -d out src/cafe/*.java
+javac --release 17 -d out -sourcepath src src/cafe/*.java
 java -cp out cafe.Main
 java -cp out cafe.PricingEventsDemo
 java -cp out cafe.PricingEventsChecks

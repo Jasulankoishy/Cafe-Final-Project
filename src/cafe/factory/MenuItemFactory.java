@@ -1,4 +1,6 @@
-package cafe;
+package cafe.factory;
+
+import cafe.builder.Order;
 
 /**
  * Factory Method pattern: Creator defining the contract for item instantiation.

@@ -1,5 +1,13 @@
 package cafe;
 
+import cafe.builder.Order;
+import cafe.facade.CafeFacade;
+import cafe.strategy.RegularPricing;
+import cafe.strategy.DiscountPricing;
+import cafe.observer.OrderEventPublisher;
+import cafe.observer.KitchenListener;
+import cafe.observer.CashierListener;
+
 import java.util.List;
 
 /** Member 2's standalone demo; the team's Main stays unchanged. */

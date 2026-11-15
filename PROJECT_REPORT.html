@@ -385,7 +385,7 @@ public final class CheeseExtra extends ItemDecorator {
 <h2>5. Application Verification & Execution Logs</h2>
 
 <h3>5.1 Compilation & Integrated Execution</h3>
-<pre><code>$ javac --release 17 -d out src/cafe/*.java
+<pre><code>$ javac --release 17 -d out -sourcepath src src/cafe/*.java
 $ java -cp out cafe.Main
 
 ==================================================

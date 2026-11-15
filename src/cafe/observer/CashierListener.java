@@ -1,4 +1,7 @@
-package cafe;
+package cafe.observer;
+
+import cafe.builder.Order;
+import cafe.facade.CafeFacade;
 
 public final class CashierListener implements CafeFacade.OrderEvents {
     @Override

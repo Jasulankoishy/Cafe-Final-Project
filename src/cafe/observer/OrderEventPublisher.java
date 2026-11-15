@@ -1,4 +1,7 @@
-package cafe;
+package cafe.observer;
+
+import cafe.builder.Order;
+import cafe.facade.CafeFacade;
 
 import java.util.ArrayList;
 import java.util.List;

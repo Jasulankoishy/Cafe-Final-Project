@@ -1,4 +1,6 @@
-package cafe;
+package cafe.factory;
+
+import cafe.builder.Order;
 
 import java.util.Objects;
 

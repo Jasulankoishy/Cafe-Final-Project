@@ -40,7 +40,7 @@ A cohesive Java 17 restaurant ordering system demonstrating **6 software design 
 
 ### 1. Compile all classes
 ```sh
-javac --release 17 -d out src/cafe/*.java
+javac --release 17 -d out -sourcepath src src/cafe/*.java
 ```
 
 ### 2. Run the Integrated Demo
@@ -68,3 +68,12 @@ java -cp out cafe.MenuPatternsChecks
 # Dias Checks
 java -cp out cafe.PricingEventsChecks
 ```
+
+## Pattern packages
+
+- `src/cafe/builder/`: Order
+- `src/cafe/facade/`: CafeFacade
+- `src/cafe/factory/`: MenuItemFactory, BurgerFactory, TeaFactory
+- `src/cafe/decorator/`: ItemDecorator, CheeseExtra, BaconExtra
+- `src/cafe/strategy/`: RegularPricing, DiscountPricing
+- `src/cafe/observer/`: OrderEventPublisher, KitchenListener, CashierListener

@@ -1,4 +1,7 @@
-package cafe;
+package cafe.strategy;
+
+import cafe.builder.Order;
+import cafe.facade.CafeFacade;
 
 /** Charges the sum of the item prices, in whole KZT. */
 public final class RegularPricing implements CafeFacade.Pricing {
